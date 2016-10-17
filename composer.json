@@ -15,5 +15,6 @@
     "psr-4": {
       "Testgen\\": "src"
     }
-  }
+  },
+  "bin":["testgen"]
 }

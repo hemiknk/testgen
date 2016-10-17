@@ -1,4 +1,15 @@
 <?php
+$allowedTypes = [
+    'controllers',
+    'models',
+];
+
+if (!in_array($argv[1], $allowedTypes)) {
+    die("Argument must be one of allowed types, run 
+php testgen.php controllers or
+php testgen.php models");
+}
+
 // for phar
 if (file_exists(__DIR__.'/vendor/autoload.php')) {
     require_once(__DIR__.'/vendor/autoload.php');
@@ -18,5 +29,4 @@ spl_autoload_register(function($class) use ($config){
 });
 
 $app = new \Testgen\Application($config);
-$app->run('controllers');
-$app->run('models');
+$app->run($argv[1]);
