@@ -2,6 +2,8 @@
 
 namespace Testgen\Generators;
 
+use Testgen\View;
+
 /**
  * Class CestModel
  *
@@ -10,31 +12,21 @@ namespace Testgen\Generators;
 class CestModel extends CestAction
 {
     /**
-     * @param $template
      * @return string
      */
-    protected function generateActions($template)
+    protected function generateActions()
     {
         $data = '';
         foreach ($this->settings['actions'] as $key => $action) {
             $data = $this->getData($this->settings['actions']);
         }
         $tableName = strtolower($this->name);
-        $template .= <<<EOL
-                  
-    public function {$this->name}Test(AcceptanceTester \$I)
-    {
-        \$data = [
-            {$data}
-        ];
-        \$I->dontSeeInDatabase('{$tableName}', \$data);
-        \${$tableName} = new {$this->name}();
-        \${$tableName}->load(\$data);
-        \${$tableName}->save();
-        \$I->seeInDatabase('{$tableName}', \$data);
-    }
 
-EOL;
+        $template = (new View(Template::getModel()))
+            ->place('name', $this->name)
+            ->place('data', $data)
+            ->place('tableName', $tableName)
+            ->produce();
         return $template;
     }
 

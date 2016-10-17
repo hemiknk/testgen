@@ -16,5 +16,9 @@
       "Testgen\\": "src"
     }
   },
-  "bin":["testgen"]
+  "scripts": {
+    "post-install-cmd": [
+      "ln -s testgen.php ../../bin/testgen"
+    ]
+  }
 }

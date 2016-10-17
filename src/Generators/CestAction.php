@@ -76,16 +76,11 @@ class CestAction
     {
         $template = '';
         foreach ($this->settings['actions'] as $key => $action) {
-            $template .= <<<EOL
-            
-    public function {$action}Test(AcceptanceTester \$I)
-    {
-        \$I->wantTo('Test action $action');
-        \$I->amOnPage('{$this->buildRoute($action)}');
-        \$I->seeResponseCodeIs(200);
-    }
-
-EOL;
+            $route = $this->buildRoute($action);
+            $template .= (new View(Template::getAction()))
+                ->place('action', $action)
+                ->place('route', $route)
+                ->produce();
         }
         return $template;
     }
