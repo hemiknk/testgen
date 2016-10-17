@@ -1,18 +1,17 @@
 <?php
 return [
-    'rootDir' => dirname(__DIR__),
-    'namespaces' => [
+    'rootDir' => dirname(dirname(dirname(__DIR__))),
+    'namespaces' => [//in some clasess was not found
         'dektrium\user\models\User' => 'dektrium/yii2-user/models/User',
         'dektrium\user\traits\ModuleTrait' => 'dektrium/yii2-user/traits/ModuleTrait',
     ],
     'controllers' => [
         'keyWord' => 'Controller',
-        'paths' => [
+        'paths' => [//path to folder with controllers
             'frontend/controllers',
             'backend/controllers',
-            'console/controllers',
         ],
-        'except' =>[
+        'except' =>[//except controllers
             '.gitkeep',
             'SaleController.php',
             'BookingController.php',
@@ -23,7 +22,7 @@ return [
                 'actionIndex',
             ],
         ],
-        'testsFolder' => dirname(__DIR__) . DIRECTORY_SEPARATOR . "tests/codeception",
+        'testsFolder' => dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . "tests/codeception",
         'testsNamespace' => 'tests\codeception',
     ],
 
@@ -39,7 +38,7 @@ return [
             'UserSearch.php',
         ],
         'testsNamespace' => 'tests\codeception',
-        'testsFolder' => dirname(__DIR__) . DIRECTORY_SEPARATOR . "tests/codeception",
+        'testsFolder' => dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . "tests/codeception",
     ],
 
 ];

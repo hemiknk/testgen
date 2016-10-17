@@ -76,8 +76,8 @@ EOL;
 
     private function buildRoute($action)
     {
-        $route = $this->camel2id(str_replace('Controller', '', $this->name)) . '/'
-            . $this->camel2id(str_replace('action', '', $action));
+        $route = $this->camel2id(str_ireplace('Controller', '', $this->name)) . '/'
+            . $this->camel2id(str_ireplace('action', '', $action));
         return $route;
     }
 
