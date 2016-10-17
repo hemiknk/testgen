@@ -6,15 +6,14 @@
   "authors": [
     {
       "name": "artem",
-      "email": "tema.tarasow@gmail.com"
+      "email": "goodeveningproj@gmail.com"
     }
   ],
   "minimum-stability": "dev",
   "require": {},
   "autoload": {
     "psr-4": {
-      "Testgen\\": "src",
-      "dektrium\\user\\": "../vendor/dectrium/yii2-user"
+      "Testgen\\": "src"
     }
   }
 }

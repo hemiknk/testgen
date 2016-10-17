@@ -6,8 +6,6 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
     require_once __DIR__ . '/../../autoload.php';
 }
 
-require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
-
 $config = require('testgen.conf.php');
 
 spl_autoload_register(function($class) use ($config){
@@ -20,6 +18,5 @@ spl_autoload_register(function($class) use ($config){
 });
 
 $app = new \Testgen\Application($config);
-
 $app->run('controllers');
 $app->run('models');
