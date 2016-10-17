@@ -4,7 +4,7 @@ namespace Testgen;
 /**
  * Basic template engine used for generating initial Cept/Cest/Test files.
  */
-class Template
+class View
 {
     protected $template;
     protected $vars = [];

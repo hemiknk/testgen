@@ -1,16 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tarasov
- * Date: 13.10.16
- * Time: 13:44
- */
 
 namespace Testgen\Generators;
 
-
+/**
+ * Class CestModel
+ *
+ * @package Testgen\Generators
+ */
 class CestModel extends CestAction
 {
+    /**
+     * @param $template
+     * @return string
+     */
     protected function generateActions($template)
     {
         $data = '';
@@ -36,6 +38,10 @@ EOL;
         return $template;
     }
 
+    /**
+     * @param $actions
+     * @return mixed
+     */
     protected function getData($actions)
     {
         $result = [];
@@ -51,6 +57,10 @@ EOL;
         return str_replace(',"', ',' . PHP_EOL . str_repeat(' ', 12) . '"', $result);
     }
 
+    /**
+     * @param $type
+     * @return bool|int|string
+     */
     protected function getValue($type)
     {
         switch ($type) {

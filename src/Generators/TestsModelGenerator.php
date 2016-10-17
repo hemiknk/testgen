@@ -4,8 +4,18 @@ namespace Testgen\Generators;
 
 use Testgen\Test;
 
+/**
+ * Class TestsModelGenerator
+ *
+ * @package Testgen\Generators
+ */
 class TestsModelGenerator extends TestsControllerGenerator
 {
+    /**
+     * @param $cestName
+     * @param $settings
+     * @return CestModel
+     */
     protected function getCest($cestName, $settings)
     {
         return new CestModel($cestName, $settings);
@@ -24,6 +34,10 @@ class TestsModelGenerator extends TestsControllerGenerator
         return $tableFields;
     }
 
+    /**
+     * @param $file
+     * @return Test|int
+     */
     public function getTableFields($file)
     {
         $name = $this->getNamespace($file);
@@ -33,7 +47,7 @@ class TestsModelGenerator extends TestsControllerGenerator
             $r = new \ReflectionClass($name);
         } catch (\Exception $e) {
             echo $e->getMessage();
-            return;
+            return 1;
         }
         $doc = $r->getDocComment();
         preg_match_all('#@property(.*?)\n#s', $doc, $annotations);

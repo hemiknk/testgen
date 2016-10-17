@@ -2,24 +2,42 @@
 
 namespace Testgen;
 
+/**
+ * Class FileManager
+ *
+ * @package Testgen
+ */
 class FileManager
 {
     /**
-     * Contains paths to controllers or models
+     * Contains settings for controllers/models test generation
      *
      * @var array
      */
     protected $config = [];
 
+    /**
+     * Root folder project
+     *
+     * @var string
+     */
     protected $rootDir = '';
 
-    public function __construct(array $paths, $rootDir)
+    /**
+     * FileManager constructor.
+     *
+     * @param array $config
+     * @param $rootDir
+     */
+    public function __construct(array $config, $rootDir)
     {
-        $this->config = $paths;
+        $this->config = $config;
         $this->rootDir = $rootDir;
     }
 
     /**
+     * Return array with paths to controllers/models
+     *
      * @return array
      */
     public function getPaths()

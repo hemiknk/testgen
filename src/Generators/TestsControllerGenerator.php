@@ -3,10 +3,22 @@ namespace Testgen\Generators;
 
 use Testgen\Test;
 
+/**
+ * Class TestsControllerGenerator
+ *
+ * @package Testgen\Generators
+ */
 class TestsControllerGenerator
 {
+    /**
+     * @var array
+     */
     protected $config = [];
 
+    /**
+     * @param $files
+     * @param $config
+     */
     public function generate($files, $config)
     {
         $this->config = $config;
@@ -17,6 +29,10 @@ class TestsControllerGenerator
         }
     }
 
+    /**
+     * @param $files
+     * @return array
+     */
     public function getFileComponents($files)
     {
         $controllerActions = [];
@@ -26,6 +42,10 @@ class TestsControllerGenerator
         return $controllerActions;
     }
 
+    /**
+     * @param $file
+     * @return Test
+     */
     protected function getFileActions($file)
     {
         $name = $this->getNamespace($file);
@@ -145,11 +165,20 @@ class TestsControllerGenerator
         return $cest->produce();
     }
 
+    /**
+     * @param $cestName
+     * @param $settings
+     * @return CestAction
+     */
     protected function getCest($cestName, $settings)
     {
         return new CestAction($cestName, $settings);
     }
 
+    /**
+     * @param $fileContent
+     * @param $file
+     */
     protected function saveToFile($fileContent, $file)
     {
         $nameAsArray = explode('\\', $file->name);
@@ -166,12 +195,20 @@ class TestsControllerGenerator
         }
     }
 
+    /**
+     * @param $typeTest
+     * @return string
+     */
     protected function buildPath($typeTest)
     {
         $projectRootDir = $this->config['testsFolder'];
         return $projectRootDir . DIRECTORY_SEPARATOR . $typeTest  . DIRECTORY_SEPARATOR . "acceptance" . DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * @param $cestName
+     * @return string
+     */
     protected function buildCestFileName($cestName)
     {
         return $cestName . 'Cest.php';

@@ -2,16 +2,37 @@
 
 namespace Testgen;
 
+/**
+ * Class Test
+ *
+ * @package Testgen
+ */
 class Test
 {
-    public $path;
-    public $name;
+    /**
+     * @var $path string
+     */
+    public $path = '';
+    /**
+     * @var $name string
+     */
+    public $name = '';
+    /**
+     * @var $actions array
+     */
     public $actions = [];
 
-    public function __construct($path, $name, $actions)
+    /**
+     * Test constructor.
+     *
+     * @param $path
+     * @param $name
+     * @param $params
+     */
+    public function __construct($path, $name, $params)
     {
         $this->path = $path;
         $this->name = $name;
-        $this->actions = $actions;
+        $this->actions = $params;
     }
 }

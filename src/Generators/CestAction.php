@@ -1,36 +1,43 @@
 <?php
 namespace Testgen\Generators;
 
-use Testgen\Template;
+use Testgen\View;
 
+/**
+ * Class CestAction
+ *
+ * @package Testgen\Generators
+ */
 class CestAction
 {
-
-    protected $template = <<<EOF
-<?php
-{{namespace}}
-
-class {{name}}Cest
-{
-    public function _before({{actor}} \$I)
-    {
-    }
-
-    public function _after({{actor}} \$I)
-    {
-    }
-
-EOF;
-
-    protected $settings;
+    /**
+     * @var string
+     */
+    protected $template = '';
+    /**
+     * @var $settings array
+     */
+    protected $settings = [];
+    /**
+     * @var mixed
+     */
     protected $name;
 
-    public function __construct($className, $settings)
+    /**
+     * CestAction constructor.
+     *
+     * @param $className
+     * @param $settings array
+     */
+    public function __construct($className, array $settings)
     {
         $this->name = $this->removeSuffix($className, 'Cest');
         $this->settings = $settings;
     }
 
+    /**
+     * @return string
+     */
     public function produce()
     {
         $actor = $this->settings['actorName'];
@@ -43,22 +50,31 @@ EOF;
             $ns .= "use " . $this->settings['modelNamespace']. ";";
         }
 
-        $template = (new Template($this->template))
+        $template = (new View($this->getTemplate()))
             ->place('name', $this->name)
             ->place('namespace', $ns)
             ->place('actor', $actor)
             ->produce();
-        $template = $this->generateActions($template);
-        return $this->addClosingBrace($template);
+        $template .= $this->generateActions();
+        $template .= $this->addClosingBrace();
+        return $template;
     }
 
+    /**
+     * @param $namespace
+     * @return string
+     */
     protected function getNamespaceHeader($namespace)
     {
         return "namespace $namespace;\n";
     }
 
-    protected function generateActions($template)
+    /**
+     * @return string
+     */
+    protected function generateActions()
     {
+        $template = '';
         foreach ($this->settings['actions'] as $key => $action) {
             $template .= <<<EOL
             
@@ -74,6 +90,10 @@ EOL;
         return $template;
     }
 
+    /**
+     * @param $action
+     * @return string
+     */
     private function buildRoute($action)
     {
         $route = $this->camel2id(str_ireplace('Controller', '', $this->name)) . '/'
@@ -81,6 +101,12 @@ EOL;
         return $route;
     }
 
+    /**
+     * @param $name
+     * @param string $separator
+     * @param bool $strict
+     * @return string
+     */
     private function camel2id($name, $separator = '-', $strict = false)
     {
         $regex = $strict ? '/[A-Z]/' : '/(?<![A-Z])[A-Z]/';
@@ -91,19 +117,36 @@ EOL;
         }
     }
 
-    private function addClosingBrace($template)
+    /**
+     * @return string
+     */
+    private function addClosingBrace()
     {
-        $template .= <<<EOL
+        return <<<EOL
 }
 
 EOL;
-        return $template;
     }
 
+    /**
+     * @param $className
+     * @param $suffix
+     * @return mixed
+     */
     protected function removeSuffix($className, $suffix)
     {
         $className = preg_replace('~\.php$~', '', $className);
         return preg_replace("~$suffix$~", '', $className);
     }
 
+    /**
+     * @return string
+     */
+    private function getTemplate()
+    {
+        if ('' === $this->template) {
+            $this->template = Template::get();
+        }
+        return $this->template;
+    }
 }
