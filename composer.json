@@ -1,0 +1,20 @@
+{
+  "name": "hemink/testgen",
+  "description": "Can create test fot controllers and models",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "artem",
+      "email": "tema.tarasow@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Testgen\\": "src",
+      "dektrium\\user\\": "../vendor/dectrium/yii2-user"
+    }
+  }
+}
