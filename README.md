@@ -4,7 +4,9 @@ composer require hemink/testgen
 
 Config example
 
-'rootDir' => dirname(dirname(dirname(__DIR__))),//root dir of project
+```
+$config = [
+    'rootDir' => dirname(dirname(dirname(__DIR__))),//root dir of project
     'controllers' => [
         'keyWord' => 'Controller',//contained in each file name
         'paths' => [//path to folder with controllers
@@ -53,3 +55,4 @@ Config example
         'dektrium\user\models\User' => 'dektrium/yii2-user/models/User',
         'dektrium\user\traits\ModuleTrait' => 'dektrium/yii2-user/traits/ModuleTrait',
     ],
+];
