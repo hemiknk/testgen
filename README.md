@@ -3,8 +3,20 @@ Instalation via composer
 composer require hemink/testgen
 
 Create config file in root folder of project with name testgen.conf.php
-Go to vendor/hemink/testgen
-Run php testgen.php controllers or php testgen.php models for tests generation
+Go to 
+
+```
+vendor/hemink/testgen
+```
+Run 
+```
+php testgen.php controllers 
+```
+or
+```
+php testgen.php models
+```
+for tests generation.
 
 Config file example
 testgen.conf.php
