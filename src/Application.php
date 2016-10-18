@@ -45,7 +45,7 @@ class Application
     {
         $fileManager = new FileManager($this->getConfig($type), $this->getRootDir());
         $paths = $fileManager->getPaths();
-        $parser = $this->getParser($type);
+        $parser = ParserFactory::get($type);
         $parser->generate($paths, $this->config[$type]);
     }
 
@@ -68,19 +68,5 @@ class Application
     protected function getRootDir()
     {
         return $this->config['rootDir'];
-    }
-
-    /**
-     * Return required getGenerator, depends of test type
-     *
-     * @param $type
-     * @return AbstractParser
-     */
-    private static function getParser($type)
-    {
-        if ('controllers' === $type) {
-            return new ControllerParser();
-        }
-        return new ModelParser();
     }
 }
