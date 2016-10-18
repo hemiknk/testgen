@@ -2,6 +2,7 @@
 
 namespace Testgen\Generators;
 
+use Faker\Factory;
 use Testgen\Template;
 use Testgen\View;
 
@@ -62,12 +63,13 @@ class ModelTest extends AbstractTest
      */
     protected function getValue($type)
     {
+        $faker = Factory::create();
         switch ($type) {
             case 'string' :
-                return 'qwer';
+                return $faker->name;
                 break;
             case 'integer' :
-                return 7;
+                return $faker->randomDigit;
                 break;
             default :
                 return false;

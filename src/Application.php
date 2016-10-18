@@ -45,8 +45,8 @@ class Application
     {
         $fileManager = new FileManager($this->getConfig($type), $this->getRootDir());
         $paths = $fileManager->getPaths();
-        $generator = $this->createGenerator($type);
-        $generator->generate($paths, $this->config[$type]);
+        $parser = $this->getParser($type);
+        $parser->generate($paths, $this->config[$type]);
     }
 
     /**
@@ -76,7 +76,7 @@ class Application
      * @param $type
      * @return AbstractParser
      */
-    private static function createGenerator($type)
+    private static function getParser($type)
     {
         if ('controllers' === $type) {
             return new ControllerParser();
