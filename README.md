@@ -3,6 +3,7 @@ Instalation via composer
 composer require hemink/testgen
 
 Config example
+
 'rootDir' => dirname(dirname(dirname(__DIR__))),//root dir of project
     'controllers' => [
         'keyWord' => 'Controller',//contained in each file name
