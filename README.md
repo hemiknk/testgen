@@ -5,7 +5,7 @@ composer require hemink/testgen
 Config example
 
 ```
-$config = [
+return [
     'rootDir' => dirname(dirname(dirname(__DIR__))),//root dir of project
     'controllers' => [
         'keyWord' => 'Controller',//contained in each file name
