@@ -2,11 +2,16 @@
 Instalation via composer
 composer require hemink/testgen
 
-Config example
+Create config file in root folder of project with name testgen.conf.php
+Go to vendor/hemink/testgen
+Run php testgen.php controllers or php testgen.php models for tests generation
 
+Config file example
+testgen.conf.php
 ```
+<?php
 return [
-    'rootDir' => dirname(dirname(dirname(__DIR__))),//root dir of project
+    'rootDir' => __DIR__,//root dir of project
     'controllers' => [
         'keyWord' => 'Controller',//contained in each file name
         'paths' => [//path to folder with controllers
@@ -15,7 +20,7 @@ return [
              * 'backend/controllers',
              */
         ],
-        'testsFolder' => dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . "tests/codeception",
+        'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
         'testsNamespace' => 'tests\codeception',
         'except' => [//except controllers
             /**
@@ -41,7 +46,7 @@ return [
              * 'common/models/table',
              */
         ],
-        'testsFolder' => dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . "tests/codeception",
+        'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
         'except' => [
             /**
              * 'ProductSearch.php',
