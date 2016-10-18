@@ -2,16 +2,19 @@
 
 namespace Testgen\Generators;
 
+use Testgen\Template;
 use Testgen\View;
 
 /**
- * Class CestModel
+ * Class ModelTest
  *
  * @package Testgen\Generators
  */
-class CestModel extends CestAction
+class ModelTest extends AbstractTest
 {
     /**
+     * Generate test actions
+     *
      * @return string
      */
     protected function generateActions()
@@ -31,8 +34,10 @@ class CestModel extends CestAction
     }
 
     /**
+     * Return fake data string
+     *
      * @param $actions
-     * @return mixed
+     * @return string
      */
     protected function getData($actions)
     {
@@ -50,6 +55,8 @@ class CestModel extends CestAction
     }
 
     /**
+     * Return required data type
+     *
      * @param $type
      * @return bool|int|string
      */

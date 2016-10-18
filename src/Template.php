@@ -1,6 +1,6 @@
 <?php
 
-namespace Testgen\Generators;
+namespace Testgen;
 
 /**
  * Class Template
@@ -53,6 +53,8 @@ EOF;
 EOL;
 
     /**
+     * Return template for action test case
+     *
      * @return string
      */
     public static function getAction()
@@ -61,6 +63,8 @@ EOL;
     }
 
     /**
+     * Return template for model test case
+     *
      * @return string
      */
     public static function getModel()
@@ -69,11 +73,12 @@ EOL;
     }
 
     /**
+     * Return template for test file
+     *
      * @return string
      */
     public static function get()
     {
         return self::$template;
     }
-
 }

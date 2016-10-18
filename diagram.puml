@@ -1,0 +1,55 @@
+@startuml
+class Application {
+    protected $config;
+    public function run($type)
+    private static function createGenerator($type)
+}
+Application "1" *-- "1" FileManager : contains
+Application "1" *-- "1" ControllerParser : contains
+Application "1" *-- "1" ModelParser : contains
+
+abstract class AbstractParser
+class ControllerParser extends AbstractParser{
+     protected $config;
+     public function generate($files, $config)
+     public function getFileComponents($files)
+     protected function getCest($cestName, $settings)
+}
+
+class ModelParser extends AbstractParser {
+     protected function getCest($cestName, $settings)
+     function getFileComponents($files)
+}
+ControllerParser "1" *-- "1" UriTest : contains
+ModelParser "1" *-- "1" ModelTest : contains
+
+abstract class AbstractTest
+
+class UriTest extends AbstractTest{
+    protected $template;
+    protected $settings;
+    protected $name;
+
+    public function produce()
+    protected function generateActions()
+}
+class ModelTest extends AbstractTest {
+    protected function generateActions()
+}
+
+UriTest "1" --> "*" View : use
+ModelTest "1" --> "*" View : use
+UriTest "1" --> "*" Template : use
+ModelTest "1" --> "*" Template : use
+class Template {
+    private static $template
+    private static $actionTemplate
+    private static $modelTemplate
+}
+
+class View{
+}
+
+class FileManager {
+}
+@enduml

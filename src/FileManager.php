@@ -1,9 +1,17 @@
 <?php
+/**
+ * Testgen Component
+ *
+ */
 
+/**
+ * @namespace
+ */
 namespace Testgen;
 
 /**
  * Class FileManager
+ * Collect files on the specified paths
  *
  * @package Testgen
  */
@@ -57,6 +65,8 @@ class FileManager
     }
 
     /**
+     * Exclude files according to settings
+     *
      * @param $directory
      * @return array
      * @throws \Exception
@@ -70,6 +80,8 @@ class FileManager
     }
 
     /**
+     * Return true if file contains required world
+     *
      * @param $fileName
      * @return bool
      */
@@ -77,5 +89,4 @@ class FileManager
     {
         return false != preg_match("/{$this->config['keyWord']}/", $fileName);
     }
-
 }

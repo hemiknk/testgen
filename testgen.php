@@ -1,4 +1,6 @@
 <?php
+use Testgen\Application;
+
 $allowedTypes = [
     'controllers',
     'models',
@@ -27,5 +29,5 @@ spl_autoload_register(function($class) use ($config){
     include $config['rootDir'] . '/vendor/' . $class . '.php';
 });
 
-$app = new \Testgen\Application($config);
+$app = new Application($config);
 $app->run($argv[1]);

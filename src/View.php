@@ -2,24 +2,49 @@
 namespace Testgen;
 
 /**
- * Basic template engine used for generating initial Cept/Cest/Test files.
+ * Basic template engine used for generating Cept (codeception) test files.
  */
 class View
 {
-    protected $template;
+    /**
+     * Contain template
+     *
+     * @var $template
+     */
+    protected $template = '';
+
+    /**
+     * Variables for replacing
+     *
+     * @var array $vars
+     */
     protected $vars = [];
-    protected $placehodlerStart;
-    protected $placeholderEnd;
+
+    /**
+     * Opening placeholder limiter
+     *
+     * @var string
+     */
+    protected $placeholderStart = '';
+
+    /**
+     * Closing placeholder limiter
+     *
+     * @var string $placeholderEnd
+     */
+    protected $placeholderEnd = '';
 
     /**
      * Takes a template string
      *
      * @param $template
+     * @param string $placeholderStart
+     * @param string $placeholderEnd
      */
     public function __construct($template, $placeholderStart = '{{', $placeholderEnd = '}}')
     {
         $this->template = $template;
-        $this->placehodlerStart = $placeholderStart;
+        $this->placeholderStart = $placeholderStart;
         $this->placeholderEnd = $placeholderEnd;
     }
 
@@ -54,7 +79,7 @@ class View
     public function produce()
     {
         $result = $this->template;
-        $regex = sprintf('~%s([\w\.]+)%s~m', $this->placehodlerStart, $this->placeholderEnd);
+        $regex = sprintf('~%s([\w\.]+)%s~m', $this->placeholderStart, $this->placeholderEnd);
 
         $matched = preg_match_all($regex, $result, $matches, PREG_SET_ORDER);
         if (!$matched) {
@@ -72,7 +97,7 @@ class View
                 }
             }
 
-            $result = str_replace($this->placehodlerStart . $placeholder . $this->placeholderEnd, $value, $result);
+            $result = str_replace($this->placeholderStart . $placeholder . $this->placeholderEnd, $value, $result);
         }
         return $result;
     }

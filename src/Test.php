@@ -1,10 +1,18 @@
 <?php
+/**
+ * Testgen Component
+ *
+ */
 
+/**
+ * @namespace
+ */
 namespace Testgen;
 
 /**
  * Class Test
  *
+ * Container for single info block of class or module
  * @package Testgen
  */
 class Test

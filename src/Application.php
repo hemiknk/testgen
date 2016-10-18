@@ -1,12 +1,21 @@
 <?php
+/**
+ * Testgen Component
+ *
+ */
 
+/**
+ * @namespace
+ */
 namespace Testgen;
 
-use Testgen\Generators\TestsControllerGenerator;
-use Testgen\Generators\TestsModelGenerator;
+use Testgen\Parser\AbstractParser;
+use Testgen\Parser\ControllerParser;
+use Testgen\Parser\ModelParser;
 
 /**
  * Class Application
+ * Collects file paths according to a config and run application
  *
  * @package Testgen
  */
@@ -28,6 +37,8 @@ class Application
     }
 
     /**
+     * Run test generation
+     *
      * @param $type
      */
     public function run($type)
@@ -39,8 +50,10 @@ class Application
     }
 
     /**
+     * Return config response to test type
+     *
      * @param $type
-     * @return mixed
+     * @return array
      */
     protected function getConfig($type)
     {
@@ -48,7 +61,9 @@ class Application
     }
 
     /**
-     * @return mixed
+     * Return root dir from config
+     *
+     * @return array
      */
     protected function getRootDir()
     {
@@ -56,14 +71,16 @@ class Application
     }
 
     /**
+     * Return required getGenerator, depends of test type
+     *
      * @param $type
-     * @return TestsControllerGenerator|TestsModelGenerator
+     * @return AbstractParser
      */
     private static function createGenerator($type)
     {
         if ('controllers' === $type) {
-            return new TestsControllerGenerator();
+            return new ControllerParser();
         }
-        return new TestsModelGenerator();
+        return new ModelParser();
     }
 }

@@ -1,27 +1,32 @@
 <?php
 
-namespace Testgen\Generators;
+namespace Testgen\Parser;
 
+use Testgen\Generators\ModelTest;
 use Testgen\Test;
 
 /**
- * Class TestsModelGenerator
+ * Class ModelParser
  *
  * @package Testgen\Generators
  */
-class TestsModelGenerator extends TestsControllerGenerator
+class ModelParser extends AbstractParser
 {
     /**
-     * @param $cestName
+     * Return test generator for model
+     *
+     * @param $generatorName
      * @param $settings
-     * @return CestModel
+     * @return ModelTest
      */
-    protected function getCest($cestName, $settings)
+    protected function getGenerator($generatorName, $settings)
     {
-        return new CestModel($cestName, $settings);
+        return new ModelTest($generatorName, $settings);
     }
 
     /**
+     * Collect required components from files
+     * 
      * @param $files
      * @return array
      */
@@ -35,6 +40,8 @@ class TestsModelGenerator extends TestsControllerGenerator
     }
 
     /**
+     * Get fields name from annotation
+     * 
      * @param $file
      * @return Test|int
      */
