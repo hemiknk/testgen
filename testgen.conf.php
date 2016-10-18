@@ -1,6 +1,6 @@
 <?php
 return [
-    'rootDir' => dirname(dirname(dirname(__DIR__))),
+    'rootDir' => __DIR__,
     'controllers' => [
         'keyWord' => 'Controller',//contained in each file name
         'paths' => [//path to folder with controllers
@@ -9,7 +9,7 @@ return [
              * 'backend/controllers',
              */
         ],
-        'testsFolder' => dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . "tests/codeception",
+        'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
         'testsNamespace' => 'tests\codeception',
         'except' => [//except controllers
             /**
@@ -35,7 +35,7 @@ return [
              * 'common/models/table',
              */
         ],
-        'testsFolder' => dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . "tests/codeception",
+        'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
         'except' => [
             /**
              * 'ProductSearch.php',
