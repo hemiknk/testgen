@@ -1,53 +1,44 @@
 <?php
+//example
 return [
     'rootDir' => __DIR__,
+    'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
+    'testsNamespace' => 'tests\codeception',
+    'namespaces' => [
+        'dektrium\user\models\User' => 'dektrium/yii2-user/models/User',
+        'dektrium\user\traits\ModuleTrait' => 'dektrium/yii2-user/traits/ModuleTrait',
+    ],
     'controllers' => [
-        'keyWord' => 'Controller',//contained in each file name
-        'paths' => [//path to folder with controllers
-            /**
-             * 'frontend/controllers',
-             * 'backend/controllers',
-             */
+        'keyWord' => 'Controller',
+        'paths' => [
+            'frontend/controllers',
+            'backend/controllers',
+            'console/controllers',
         ],
-        'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
-        'testsNamespace' => 'tests\codeception',
-        'except' => [//except controllers
-            /**
-             * '.gitkeep',
-             * 'SaleController.php',
-             */
+        'except' =>[
+            '.gitkeep',
+            'SaleController.php',
+            'BookingController.php',
         ],
         'exceptActions' => [
-            /**
-             * 'beforeActions',
-             * 'frontend\controllers\ProductController' => [
-             *      'actionIndex',
-             * ],
-             */
+            'beforeActions',
+            'frontend\controllers\ProductController' => [
+                'actionIndex',
+            ],
         ],
-
     ],
 
     'models' => [
-        'keyWord' => '.',//contained in each file name
-        'paths' => [//path to folder with models
-            /**
-             * 'common/models/table',
-             */
+        'keyWord' => '.',
+        'paths' => [
+            'common/models/table',
         ],
-        'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
         'except' => [
-            /**
-             * 'ProductSearch.php',
-             * 'UserSearch.php',
-             */
+            'BookingSearch.php',
+            'CategorySearch.php',
+            'ProductSearch.php',
+            'UserSearch.php',
         ],
-        'testsNamespace' => 'tests\codeception',
-    ],
-
-    'namespaces' => [//used for autoload classes
-        'dektrium\user\models\User' => 'dektrium/yii2-user/models/User',
-        'dektrium\user\traits\ModuleTrait' => 'dektrium/yii2-user/traits/ModuleTrait',
     ],
 
 ];
