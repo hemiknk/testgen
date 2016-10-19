@@ -19,37 +19,37 @@ abstract class AbstractParser
      */
     protected $config = [];
 
-    /**
-     * Collect required components from files
-     *
-     * @param $files array
-     * @return array
-     */
-    abstract public function getFileComponents($files);
+    abstract protected function getActions($file, $name);
 
     /**
-     * Must return test generator
-     *
-     * @param $generatorName
-     * @param $settings
-     * @return AbstractTest
-     */
-    abstract protected function getGenerator($generatorName, $settings);
-
-    /**
-     * Generate and save test to file
+     * Return array with file components (actions/table fields)
      *
      * @param $files
      * @param $config
+     * @return array
      */
-    public function generate($files, $config)
+    public function getComponents($files, $config)
     {
+        $components = [];
         $this->config = $config;
-        $components = $this->getFileComponents($files);
-        foreach ($components as $component) {
-            $fileContent = $this->generateForFile($component);
-            $this->saveToFile($fileContent, $component);
+        foreach ($files as $file) {
+            $components[] = $this->getFileComponents($file);
         }
+        return $components;
+    }
+
+    /**
+     * Return component Test containing path to file
+     *
+     * @param $file
+     * @return Test
+     */
+    protected function getFileComponents($file)
+    {
+        $name = $this->getNamespace($file);
+        $name = $name . '\\' . basename($file, '.php');
+        $actions = $this->getActions($file, $name);
+        return new Test($file, $name, $actions);
     }
 
     /**
@@ -78,71 +78,16 @@ abstract class AbstractParser
     }
 
     /**
-     * Run test generation for file
+     * Return required generator, depends of test type
      *
-     * @param $element Test
-     * @return string
+     * @param $type
+     * @return AbstractParser
      */
-    public function generateForFile($element)
+    public static function get($type)
     {
-        $namespaceAsArray = explode('\\', $element->name);
-        $typeTest = array_shift($namespaceAsArray);
-        $testType = end($namespaceAsArray);
-
-        $settings = [
-            'actorName' => 'AcceptanceTester',
-            'namespace' => $this->config['testsNamespace'] . "\\$typeTest",
-            'actions' => $element->actions,
-            'modelNamespace' => $element->name,
-        ];
-
-        $generator = $this->getGenerator($testType, $settings);
-        return $generator->produce();
-    }
-
-    /**
-     * Save generated test to file
-     *
-     * @param $fileContent
-     * @param $file
-     */
-    protected function saveToFile($fileContent, $file)
-    {
-        $nameAsArray = explode('\\', $file->name);
-        $filename = $this->buildTestFileName(array_pop($nameAsArray));
-        $path = $this->buildPath(array_shift($nameAsArray));
-
-        if (!is_dir($path)) {
-            mkdir($path);
+        if ('controllers' === $type) {
+            return new ControllerParser();
         }
-        $filename = $path . $filename;
-
-        if (!file_exists($filename)) {
-            file_put_contents($filename, $fileContent);
-        }
+        return new ModelParser();
     }
-
-    /**
-     * Build path for saving file
-     *
-     * @param $typeTest
-     * @return string
-     */
-    protected function buildPath($typeTest)
-    {
-        $projectRootDir = $this->config['testsFolder'];
-        return $projectRootDir . DIRECTORY_SEPARATOR . $typeTest  . DIRECTORY_SEPARATOR . "acceptance" . DIRECTORY_SEPARATOR;
-    }
-
-    /**
-     * Create name for test file
-     *
-     * @param $cestName
-     * @return string
-     */
-    protected function buildTestFileName($cestName)
-    {
-        return $cestName . 'Cest.php';
-    }
-
 }

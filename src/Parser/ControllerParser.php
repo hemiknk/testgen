@@ -1,9 +1,6 @@
 <?php
 namespace Testgen\Parser;
 
-use Testgen\Generators\UriTest;
-use Testgen\Test;
-
 /**
  * Class ControllerParser
  *
@@ -11,43 +8,6 @@ use Testgen\Test;
  */
 class ControllerParser extends AbstractParser
 {
-    /**
-     * @param $generatorName
-     * @param $settings
-     * @return UriTest
-     */
-    protected function getGenerator($generatorName, $settings)
-    {
-        return new UriTest($generatorName, $settings);
-    }
-    
-    /**
-     * Collect required components from files
-     *
-     * @param $files array
-     * @return array
-     */
-    public function getFileComponents($files)
-    {
-        $controllerActions = [];
-        foreach ($files as $file) {
-            $controllerActions[] = $this->getFileActions($file);
-        }
-        return $controllerActions;
-    }
-
-    /**
-     * @param $file
-     * @return Test
-     */
-    protected function getFileActions($file)
-    {
-        $name = $this->getNamespace($file);
-        $name = $name . '\\' . basename($file, '.php');
-        $actions = $this->getControllerActions($file, $name);
-        return new Test($file, $name, $actions);
-    }
-
     /**
      * Return all actions for single controller
      *
@@ -57,7 +17,7 @@ class ControllerParser extends AbstractParser
      * @throws \Exception
      * @internal param $controller
      */
-    protected function getControllerActions($file, $name)
+    protected function getActions($file, $name)
     {
         require $file;
         if (!class_exists($name)) {
@@ -105,7 +65,7 @@ class ControllerParser extends AbstractParser
      * @param $method
      * @return bool
      */
-    public function isAllowedMethod($method)
+    private function isAllowedMethod($method)
     {
         $disabledMethods = $this->config['exceptActions'];
         if (in_array($method->name, $disabledMethods)) {

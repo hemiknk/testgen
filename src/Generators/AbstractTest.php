@@ -33,17 +33,13 @@ abstract class AbstractTest
     abstract protected function generateActions();
 
     /**
-     * UriTest constructor.
-     *
-     * @param $className
-     * @param $settings array
+     * @param array $settings
      */
-    public function __construct($className, array $settings)
+    public function init(array $settings)
     {
-        $this->name = $this->removeSuffix($className, 'Cest');
+        $this->name = $settings['className'];
         $this->settings = $settings;
     }
-
     /**
      * Generate one test file
      *
@@ -52,36 +48,22 @@ abstract class AbstractTest
     public function produce()
     {
         $actor = $this->settings['actorName'];
-        $namespace = rtrim($this->settings['namespace'], '\\');
-        $ns = $this->getNamespaceHeader($namespace);
-        if ($ns) {
-            $ns .= "use " . $this->settings['namespace'] . '\\' . $actor . ";\n";
+        $namespace = $this->getNamespaceHeader();
+        if ($namespace) {
+            $namespace .= "use " . $this->settings['namespace'] . '\\' . $actor . ";\n";
         }
         if (array_key_exists('modelNamespace', $this->settings)) {
-            $ns .= "use " . $this->settings['modelNamespace']. ";";
+            $namespace .= "use " . $this->settings['modelNamespace']. ";";
         }
 
         $template = (new View($this->getTemplate()))
             ->place('name', $this->name)
-            ->place('namespace', $ns)
+            ->place('namespace', $namespace)
             ->place('actor', $actor)
             ->produce();
         $template .= $this->generateActions();
         $template .= $this->addClosingBrace();
         return $template;
-    }
-
-    /**
-     * Remove suffix from file name
-     *
-     * @param $className
-     * @param $suffix
-     * @return mixed
-     */
-    protected function removeSuffix($className, $suffix)
-    {
-        $className = preg_replace('~\.php$~', '', $className);
-        return preg_replace("~$suffix$~", '', $className);
     }
 
     /**
@@ -112,12 +94,26 @@ EOL;
 
     /**
      * Return namespace for file
-     * 
-     * @param $namespace
+     *
      * @return string
      */
-    protected function getNamespaceHeader($namespace)
+    protected function getNamespaceHeader()
     {
+        $namespace = rtrim($this->settings['namespace'], '\\');
         return "namespace $namespace;\n";
+    }
+
+    /**
+     * Return required generator, depends of test type
+     *
+     * @param $type
+     * @return AbstractTest
+     */
+    public static function get($type)
+    {
+        if ('controllers' === $type) {
+            return new UriTest();
+        }
+        return new ModelTest();
     }
 }
