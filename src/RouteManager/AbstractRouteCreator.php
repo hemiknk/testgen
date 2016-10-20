@@ -56,6 +56,7 @@ abstract class AbstractRouteCreator
      */
     public static function get($type)
     {
-        return new SimpleCreator();
+        $className = 'Testgen\\RouteManager\\' . ucfirst($type) . 'Creator';
+        return new $className();
     }
 }

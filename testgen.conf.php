@@ -41,4 +41,13 @@ return [
         ],
     ],
 
+
+    'route' => [
+        'type' => 'zf2',
+        'paths' => [
+            __DIR__ . DIRECTORY_SEPARATOR . 'module/Users/config/module.config.php',
+            __DIR__ . DIRECTORY_SEPARATOR . 'module/Calendar/config/module.config.php',
+        ],
+    ],
+
 ];
