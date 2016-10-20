@@ -12,7 +12,7 @@
   "minimum-stability": "dev",
   "require": {
     "fzaninotto/faker": "^1.6.0",
-    "zendframework/zend-mvc": "^3.0"
+    "zendframework/zend-mvc": "2.*"
   },
   "autoload": {
     "psr-4": {
