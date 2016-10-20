@@ -11,6 +11,7 @@ namespace Testgen;
 
 use Testgen\Generators\AbstractTest;
 use Testgen\Parser\AbstractParser;
+use Testgen\RouteManager\AbstractRouteCreator;
 
 /**
  * Class Application
@@ -24,6 +25,8 @@ class Application
      * @var array
      */
     protected $config = [];
+
+    protected static $routeCreator = null;
 
     /**
      * Application constructor.
@@ -42,6 +45,9 @@ class Application
      */
     public function run($type)
     {
+        self::$routeCreator = AbstractRouteCreator::get(/*$type*/'simple');
+        self::$routeCreator->init($this->config['route']);
+
         $fileManager = new FileManager($this->getConfig($type), $this->getRootDir());
         $paths = $fileManager->getPaths();
         $parser = AbstractParser::get($type);
@@ -143,4 +149,13 @@ class Application
     {
         return $cestName . 'Cest.php';
     }
+
+    /**
+     * @return null | AbstractRouteCreator
+     */
+    public static function getRouteCreator()
+    {
+        return self::$routeCreator;
+    }
+
 }
