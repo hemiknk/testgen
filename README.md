@@ -48,6 +48,15 @@ return [
                 'actionIndex',//for actions in certain controller
             ],
         ],
+        
+        'route' => [
+            'type' => 'zf2',//or simple
+            //if you use simple the path is not needed
+            'paths' => [
+                __DIR__ . DIRECTORY_SEPARATOR . 'module/Users/config/module.config.php',
+                __DIR__ . DIRECTORY_SEPARATOR . 'module/Calendar/config/module.config.php',
+            ],
+        ],
     ],
 
     'models' => [
@@ -60,15 +69,6 @@ return [
             'CategorySearch.php',
             'ProductSearch.php',
             'UserSearch.php',
-        ],
-    ],
-
-    'route' => [
-        'type' => 'zf2',//or simple
-        //if you use simple the path is not needed
-        'paths' => [
-            __DIR__ . DIRECTORY_SEPARATOR . 'module/Users/config/module.config.php',
-            __DIR__ . DIRECTORY_SEPARATOR . 'module/Calendar/config/module.config.php',
         ],
     ],
 ];
