@@ -26,8 +26,6 @@ class Application
      */
     protected $config = [];
 
-    protected static $routeCreator = null;
-
     /**
      * Application constructor.
      *
@@ -41,22 +39,18 @@ class Application
     /**
      * Run test generation
      *
-     * @param $type
+     * @param $testType
      */
-    public function run($type)
+    public function run($testType)
     {
-        self::$routeCreator = AbstractRouteCreator::get(/*$type*/'simple');
-        self::$routeCreator->init($this->config['route']);
-
-        $fileManager = new FileManager($this->getConfig($type), $this->getRootDir());
+        $fileManager = new FileManager($this->getConfig($testType), $this->getRootDir());
+        $parser = AbstractParser::get($testType);
         $paths = $fileManager->getPaths();
-        $parser = AbstractParser::get($type);
-        $components = $parser->getComponents($paths, $this->config[$type]);
+        $components = $parser->getComponents($paths, $this->config[$testType]);
 
         foreach ($components as $component) {
-            $settings = $this->getSettings($component);
-            $testGenerator = AbstractTest::get($type);
-            $testGenerator->init($settings);
+            $settings = $this->getSettings($testType, $component);
+            $testGenerator = AbstractTest::get($settings);
             $fileContent = $testGenerator->produce();
             $this->save($fileContent, $component);
         }
@@ -65,10 +59,11 @@ class Application
     /**
      * Required settings for test file
      *
+     * @param $type
      * @param $component
      * @return array
      */
-    protected function getSettings($component)
+    protected function getSettings($type, $component)
     {
         $namespaceAsArray = explode('\\', $component->name);
         $typeTest = array_shift($namespaceAsArray);
@@ -80,6 +75,8 @@ class Application
             'actions' => $component->actions,
             'modelNamespace' => $component->name,
             'className' => $className,
+            'type' => $type,
+            'config' => $this->getConfig($type)['route'],
         ];
         return $settings;
     }
@@ -148,14 +145,6 @@ class Application
     protected function buildTestFileName($cestName)
     {
         return $cestName . 'Cest.php';
-    }
-
-    /**
-     * @return null | AbstractRouteCreator
-     */
-    public static function getRouteCreator()
-    {
-        return self::$routeCreator;
     }
 
 }

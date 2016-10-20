@@ -2,9 +2,15 @@
 
 namespace Testgen\RouteManager;
 
+
+use Zend\Mvc\Router\Http\TreeRouteStack;
+use Zend\View\Helper\Url;
+
 class Zf2Creator extends AbstractRouteCreator
 {
-    protected $routeArray = [];
+    protected $routes = [];
+
+    protected $routsName = [];
 
     public function init($settings)
     {
@@ -17,6 +23,7 @@ class Zf2Creator extends AbstractRouteCreator
         foreach ($this->settings['paths'] as $path) {
             $routes = include_once $path;
             if ($routes = $this->getRoutes($routes)) {
+                $this->routes = array_merge($this->routes, $routes);
                 $this->createRoutesArray($routes);
             }
         }
@@ -32,23 +39,14 @@ class Zf2Creator extends AbstractRouteCreator
 
     protected function createRoutesArray($routes)
     {
-        foreach ($routes as $route) {
-            if(!$this->isLiteral($route['type'])){
-                continue;
-            }
-            $this->parseRoute($route['options']);
+        foreach ($routes as $name => $route) {
+            $this->routsName[$name] = $this->parseRoute($route['options']);
         }
     }
 
     protected function parseRoute($option)
     {
-        $simpleRoute = parent::buildRoute($option['defaults']['controller'], $option['defaults']['action']);
-        $this->routeArray[$simpleRoute] = $option['route'];
-    }
-
-    protected function isLiteral($type)
-    {
-        return 'literal' === $type || 'Zend\Mvc\Router\Http\Literal' === $type ? true : false;
+        return parent::buildRoute($option['defaults']['controller'], $option['defaults']['action']);
     }
 
     /**
@@ -61,10 +59,16 @@ class Zf2Creator extends AbstractRouteCreator
     public function buildRoute($controller, $action)
     {
         $route = parent::buildRoute($controller, $action);
-        if (array_key_exists($route, $this->routeArray)){
-            $route = $this->routeArray[$route];
-        }
-        return $route;
-    }
+        try {
+            $treeRouter = new TreeRouteStack();
+            $treeRouter->addRoutes($this->routes);
+            $urlHelper = new Url();
+            $urlHelper->setRouter($treeRouter);
+            $routeName = in_array($route, $this->routsName) ? array_search($route, $this->routsName) : '';
+            return $urlHelper($routeName);
 
+        } catch (\Exception $e) {
+            return $route;
+        }
+    }
 }

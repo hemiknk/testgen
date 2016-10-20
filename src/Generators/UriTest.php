@@ -1,7 +1,7 @@
 <?php
 namespace Testgen\Generators;
 
-use Testgen\Application;
+use Testgen\RouteManager\AbstractRouteCreator;
 use Testgen\Template;
 use Testgen\View;
 
@@ -13,6 +13,26 @@ use Testgen\View;
 class UriTest extends AbstractTest
 {
     /**
+     * @var AbstractRouteCreator
+     */
+    protected $routeCreator = null;
+
+    /**
+     * @param AbstractRouteCreator $routeCreator
+     */
+    public function setRouteCreator(AbstractRouteCreator $routeCreator)
+    {
+        $this->routeCreator = $routeCreator;
+    }
+
+    public function __construct(array $settings)
+    {
+        parent::__construct($settings);
+        $this->routeCreator = AbstractRouteCreator::get($this->settings['config']['type']);
+        $this->routeCreator->init($settings['config']);
+    }
+
+    /**
      * Generate test actions
      *
      * @return string
@@ -20,9 +40,8 @@ class UriTest extends AbstractTest
     protected function generateActions()
     {
         $template = '';
-        $routeCreator = Application::getRouteCreator();
         foreach ($this->settings['actions'] as $key => $action) {
-            $route = $routeCreator->buildRoute($this->name, $action);
+            $route = $this->routeCreator->buildRoute($this->name, $action);
             $template .= (new View(Template::getAction()))
                 ->place('action', $action)
                 ->place('route', $route)

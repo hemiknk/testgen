@@ -33,13 +33,16 @@ abstract class AbstractTest
     abstract protected function generateActions();
 
     /**
+     * AbstractTest constructor.
+     *
      * @param array $settings
      */
-    public function init(array $settings)
+    public function __construct(array $settings)
     {
         $this->name = $settings['className'];
         $this->settings = $settings;
     }
+
     /**
      * Generate one test file
      *
@@ -106,14 +109,14 @@ EOL;
     /**
      * Return required generator, depends of test type
      *
-     * @param $type
+     * @param $settings
      * @return AbstractTest
      */
-    public static function get($type)
+    public static function get($settings)
     {
-        if ('controllers' === $type) {
-            return new UriTest();
+        if ('controllers' === $settings['type']) {
+            return new UriTest($settings);
         }
-        return new ModelTest();
+        return new ModelTest($settings);
     }
 }

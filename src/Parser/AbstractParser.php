@@ -13,8 +13,8 @@ use Testgen\Test;
 abstract class AbstractParser
 {
     /**
-     * Contains config 
-     * 
+     * Contains config
+     *
      * @var array
      */
     protected $config = [];
@@ -54,7 +54,7 @@ abstract class AbstractParser
 
     /**
      * Read namespace from file
-     * 
+     *
      * @param $file
      * @return string
      * @throws \Exception
