@@ -115,12 +115,13 @@ class Application
         $path = $this->buildPath(array_shift($nameAsArray));
 
         if (!is_dir($path)) {
-            mkdir($path);
+            mkdir($path, 0755, true);
         }
         $filename = $path . $filename;
 
         if (!file_exists($filename)) {
             file_put_contents($filename, $fileContent);
+            echo "File created $filename" . PHP_EOL;
         }
     }
 
