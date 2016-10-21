@@ -10,6 +10,47 @@ namespace Testgen\Parser;
 class ControllerParser extends AbstractParser
 {
     /**
+     * @param $files
+     * @param $config
+     * @return array
+     */
+    public function getComponents($files, $config)
+    {
+        $components = parent::getComponents($files, $config);
+        $allComponents = [];
+        $files = $this->getAllControllers($config['route']['modules']);
+        foreach ($files as $file) {
+            $allComponents[] = $this->getFileComponents($file);
+        }
+        return array_merge($components, $allComponents);
+    }
+
+    /**
+     * @param $modulesDir
+     * @return array
+     */
+    protected function getAllControllers($modulesDir)
+    {
+        $controllers = [];
+        $arr = opendir($modulesDir);
+        while ($file = readdir($arr)) {
+            if ($file == '.' or $file == '..') {
+                continue;
+            }
+            $file = $modulesDir . DIRECTORY_SEPARATOR . $file;
+            if (is_file($file)) {
+                if (strpos($file, 'Controller.php')) {
+                    $controllers[] = $file;
+                }
+            }
+            if (is_dir($file) === true) {
+                $controllers = array_merge($controllers, $this->getAllControllers($file));
+            }
+        }
+        return $controllers;
+    }
+
+    /**
      * Return all actions for single controller
      *
      * @param $file

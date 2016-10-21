@@ -3,17 +3,16 @@
 return [
     'rootDir' => __DIR__,
     'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
-    'testsNamespace' => 'tests\codeception',
+    'testsNamespace' => 'tests\codeception\acceptance',
     'namespaces' => [
-        'Testgen\Application' => 'vendor/work/testgen/src/Application',
         'Scheduleme\Model\DbHelper' => 'library/Scheduleme/src/Scheduleme/Model/DbHelper',
         'Zend\Mvc\Controller\AbstractActionController' => 'vendor/zendframework/zend-mvc/src/Controller/AbstractActionController',
         'Zend\Mvc\Controller\AbstractController' => 'vendor/zendframework/zend-mvc/src/Controller/AbstractController',
     ],
     'controllers' => [
         'keyWord' => 'Controller',
-        'paths' => [
-            'module/Users/src/Users/Controller',
+        'paths' => [//set if controller not in module folder
+//            'module/Users/src/Users/Controller',
         ],
         'except' =>[
             'ProfileController.php',
@@ -23,9 +22,10 @@ return [
         ],
         'route' => [
             'type' => 'zf2',
+            'modules' => __DIR__ . DIRECTORY_SEPARATOR . 'module',
             'paths' => [
-                __DIR__ . DIRECTORY_SEPARATOR . 'module/Users/config/module.config.php',
-                __DIR__ . DIRECTORY_SEPARATOR . 'module/Calendar/config/module.config.php',
+                /*   __DIR__ . DIRECTORY_SEPARATOR . 'module/Users/config/module.config.php',
+                   __DIR__ . DIRECTORY_SEPARATOR . 'module/Calendar/config/module.config.php',*/
             ],
         ],
     ],

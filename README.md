@@ -32,10 +32,8 @@ return [
     ],
     'controllers' => [
         'keyWord' => 'Controller',//contained in each file name
-        'paths' => [
-            'frontend/controllers',
-            'backend/controllers',
-            'console/controllers',
+        'paths' => [//set if controller not in module folder
+        //            'module/Users/src/Users/Controller',
         ],
         'except' =>[//except controllers
             '.gitkeep',
@@ -55,6 +53,15 @@ return [
             'paths' => [
                 __DIR__ . '/module/Users/config/module.config.php',
                 __DIR__ . '/module/Calendar/config/module.config.php',
+            ],
+        ],
+        'route' => [
+            'type' => 'zf2',//or 'simple'
+            //if you use 'simple' the path is not needed
+            'modules' => __DIR__ . DIRECTORY_SEPARATOR . 'module',
+            'paths' => [//for define cusrom paths to routs config
+                __DIR__ . DIRECTORY_SEPARATOR . 'module/Users/config/module.config.php',
+                __DIR__ . DIRECTORY_SEPARATOR . 'module/Calendar/config/module.config.php',
             ],
         ],
     ],
