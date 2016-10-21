@@ -1,5 +1,6 @@
 # testgen
 Instalation via composer
+
 ````
 composer require hemink/testgen
 ```
