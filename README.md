@@ -1,7 +1,8 @@
 # testgen
 Instalation via composer
+```
 composer require hemink/testgen
-
+```
 Create config file in root folder of project with name testgen.conf.php
 Go to 
 
