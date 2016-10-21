@@ -72,6 +72,7 @@ class Application
         $settings = [
             'actorName' => 'AcceptanceTester',
             'namespace' => $this->config['testsNamespace'] . "\\$typeTest",
+            'AcceptanceTesterFullName' => $this->config['AcceptanceTesterFullName'],
             'actions' => $component->actions,
             'modelNamespace' => $component->name,
             'className' => $className,

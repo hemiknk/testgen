@@ -1,62 +1,93 @@
 <?php
 
-namespace Testgen\RouteManager;
+namespace Testgen\Parser;
 
-abstract class AbstractRouteCreator
+use Testgen\Generators\AbstractTest;
+use Testgen\Test;
+
+/**
+ * Class AbstractParser
+ *
+ * @package Testgen\Parser
+ */
+abstract class AbstractParser
 {
     /**
-     * @var array $settings
-     */
-    protected $settings = [];
-
-    /**
-     * @param $settings
-     */
-    public function init($settings)
-    {
-        $this->settings = $settings;
-    }
-
-    /**
-     * Return route using controller and action
-     * Build route like controller-name/action-name
+     * Contains config
      *
-     * @param $controller
-     * @param $action
-     * @return string
+     * @var array
      */
-    public function buildRoute($controller, $action)
-    {
-        $route = $this->camel2id(str_ireplace('Controller', '', $controller)) . '/'
-            . $this->camel2id(str_ireplace('action', '', $action));
-        return $route;
-    }
+    protected $config = [];
+
+    abstract protected function getActions($file, $name);
 
     /**
-     * Replace camel to '-' separated test
+     * Return array with file components (actions/table fields)
      *
-     * @param $name
-     * @param string $separator
-     * @param bool $strict
-     * @return string
+     * @param $files
+     * @param $config
+     * @return array
      */
-    protected function camel2id($name, $separator = '-', $strict = false)
+    public function getComponents($files, $config)
     {
-        $regex = $strict ? '/[A-Z]/' : '/(?<![A-Z])[A-Z]/';
-        if ($separator === '_') {
-            return trim(strtolower(preg_replace($regex, '_\0', $name)), '_');
-        } else {
-            return trim(strtolower(str_replace('_', $separator, preg_replace($regex, $separator . '\0', $name))), $separator);
+        $components = [];
+        $this->config = $config;
+        foreach ($files as $file) {
+            $components[] = $this->getFileComponents($file);
         }
+        return $components;
     }
 
     /**
+     * Return component Test containing path to file
+     *
+     * @param $file
+     * @return Test
+     */
+    protected function getFileComponents($file)
+    {
+        $name = $this->getNamespace($file);
+        $name = $name . '\\' . basename($file, '.php');
+        $actions = $this->getActions($file, $name);
+        return new Test($file, $name, $actions);
+    }
+
+    /**
+     * Read namespace from file
+     *
+     * @param $file
+     * @return string
+     * @throws \Exception
+     */
+    protected function getNamespace($file)
+    {
+        $handle = fopen($file, "r");
+        if (!$handle) {
+            throw new \Exception("Cund't read file $file");
+        }
+        $namespace = '';
+        while (false !== ($line = fgets($handle))) {
+            if (0 === strpos($line, 'namespace')) {
+                $parts = explode(' ', $line);
+                $namespace = rtrim(trim($parts[1]), ';');
+                break;
+            }
+        }
+        fclose($handle);
+        return $namespace;
+    }
+
+    /**
+     * Return required generator, depends of test type
+     *
      * @param $type
-     * @return AbstractRouteCreator
+     * @return AbstractParser
      */
     public static function get($type)
     {
-        $className = 'Testgen\\RouteManager\\' . ucfirst($type) . 'Creator';
-        return new $className();
+        if ('controllers' === $type) {
+            return new ControllerParser();
+        }
+        return new ModelParser();
     }
 }

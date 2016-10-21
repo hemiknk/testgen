@@ -53,7 +53,7 @@ abstract class AbstractTest
         $actor = $this->settings['actorName'];
         $namespace = $this->getNamespaceHeader();
         if ($namespace) {
-            $namespace .= "use " . $this->settings['namespace'] . '\\' . $actor . ";\n";
+            $namespace .= "use " . $this->settings['AcceptanceTesterFullName'] . $actor . ";\n";
         }
         if (array_key_exists('modelNamespace', $this->settings)) {
             $namespace .= "use " . $this->settings['modelNamespace']. ";";

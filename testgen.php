@@ -28,9 +28,10 @@ spl_autoload_register(function($class) use ($config){
 
     if (array_key_exists($class, $config['namespaces'])){
         $class = str_replace($class, $config['namespaces'][$class], $class);
+        $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+        include $config['rootDir'] . DIRECTORY_SEPARATOR . $class . '.php';
     }
-    $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
-    include $config['rootDir'] . DIRECTORY_SEPARATOR . $class . '.php';
+
 });
 
 $app = new Application($config);

@@ -4,6 +4,7 @@ return [
     'rootDir' => __DIR__,
     'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
     'testsNamespace' => 'tests\codeception\acceptance',
+    'AcceptanceTesterFullName' => '',
     'namespaces' => [
         'Scheduleme\Model\DbHelper' => 'library/Scheduleme/src/Scheduleme/Model/DbHelper',
         'Zend\Mvc\Controller\AbstractActionController' => 'vendor/zendframework/zend-mvc/src/Controller/AbstractActionController',
@@ -15,7 +16,7 @@ return [
 //            'module/Users/src/Users/Controller',
         ],
         'except' =>[
-            'ProfileController.php',
+            'IndexController.phpphp',
         ],
         'exceptActions' => [
             'logoutActions',

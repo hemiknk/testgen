@@ -51,7 +51,10 @@ class Zf2Creator extends AbstractRouteCreator
      */
     protected function addRoutes($path)
     {
-        $routes = include $path;
+        $routes = include_once $path;
+        if (true === $routes) {
+            return;
+        }
         if ($routes = $this->getRoutes($routes)) {
             $this->routes = array_merge($this->routes, $routes);
             $this->createRoutesArray($routes);
