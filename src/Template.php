@@ -12,6 +12,7 @@ class Template
     private static $template = <<<EOF
 <?php
 {{namespace}}
+use tests\codeception\Login;
 
 class {{name}}Cest
 {
@@ -65,7 +66,7 @@ EOL;
      */
     private static $loginTemplate = <<<EOL
 <?php
-namespace tests\codeception\frontend\acceptance;
+namespace tests\codeception;
 
 class Login
 {
@@ -97,6 +98,17 @@ class Login
         \$this->actor->expectTo('see that user is logged');
         \$this->actor->see('Logout (Frirst_user)', 'form button[type=submit]');
     }
+    
+    /**
+     * Creates a page instance
+     * @param \Codeception\Actor \$I the test guy instance
+     * @return static the page instance
+     */
+    public static function openBy(\$I)
+    {
+        \$page = new static(\$I);
+        return \$page;
+    }}
 }
 
 EOL;

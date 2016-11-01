@@ -154,12 +154,12 @@ class Application
     protected function createLoginFile()
     {
         $fileContent = Template::getLogin();
-        $path = $this->buildPath('frontend');
+        $path = $this->config['testsFolder'];
 
         if (!is_dir($path)) {
             mkdir($path, 0755, true);
         }
-        $filename = $path . 'Login.php';
+        $filename = $path . DIRECTORY_SEPARATOR . 'Login.php';
 
         if (!file_exists($filename)) {
             file_put_contents($filename, $fileContent);
