@@ -28,6 +28,7 @@ return [
     'rootDir' => __DIR__,//root dir of project
     'testsFolder' => __DIR__ . DIRECTORY_SEPARATOR . "tests/codeception",
     'testsNamespace' => 'tests\codeception',
+    'AcceptanceTesterFullName' => '',
     'namespaces' => [
         'dektrium\user\models\User' => 'dektrium/yii2-user/models/User',
         'dektrium\user\traits\ModuleTrait' => 'dektrium/yii2-user/traits/ModuleTrait',
