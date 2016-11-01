@@ -54,6 +54,8 @@ class Application
             $fileContent = $testGenerator->produce();
             $this->save($fileContent, $component);
         }
+
+        $this->createLoginFile();
     }
 
     /**
@@ -106,7 +108,7 @@ class Application
     /**
      * Save generated test to file
      *
-     * @param $fileContent
+     * @param $fileContent Test
      * @param $file
      */
     protected function save($fileContent, $file)
@@ -147,6 +149,22 @@ class Application
     protected function buildTestFileName($cestName)
     {
         return $cestName . 'Cest.php';
+    }
+
+    protected function createLoginFile()
+    {
+        $fileContent = Template::getLogin();
+        $path = $this->buildPath('frontend');
+
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+        $filename = $path . 'Login.php';
+
+        if (!file_exists($filename)) {
+            file_put_contents($filename, $fileContent);
+            echo "File created $filename" . PHP_EOL;
+        }
     }
 
 }

@@ -17,6 +17,8 @@ class {{name}}Cest
 {
     public function _before({{actor}} \$I)
     {
+        \$loginPage = Login::openBy(\$I);
+        \$loginPage->login('', '');
     }
 
     public function _after({{actor}} \$I)
@@ -25,6 +27,9 @@ class {{name}}Cest
 
 EOF;
 
+    /**
+     * @var string
+     */
     private static $actionTemplate = <<< EOF
 
     public function {{action}}Test(AcceptanceTester \$I)
@@ -36,6 +41,9 @@ EOF;
 
 EOF;
 
+    /**
+     * @var string
+     */
     private static $modelTemplate = <<<EOL
                   
     public function {{name}}Test(AcceptanceTester \$I)
@@ -49,6 +57,47 @@ EOF;
         \${{tableName}}->save();
         \$I->seeInDatabase('{{tableName}}', \$data);
     }
+
+EOL;
+
+    /**
+     * @var string
+     */
+    private static $loginTemplate = <<<EOL
+<?php
+namespace tests\codeception\frontend\acceptance;
+
+class Login
+{
+    /**
+     * @var \Codeception\Actor the testing guy object
+     */
+    protected \$actor;
+
+    /**
+     * Constructor.
+     *
+     * @param \Codeception\Actor \$I the testing guy object
+     */
+    public function __construct(\$I)
+    {
+        \$this->actor = \$I;
+    }
+
+    /**
+     * @param string \$username
+     * @param string \$password
+     */
+    public function login(\$username, \$password)
+    {
+        \$this->actor->amOnPage('/user/login');
+        \$this->actor->fillField('input[name="login-form[login]"]', \$username);
+        \$this->actor->fillField('input[name="login-form[password]"]', \$password);
+        \$this->actor->click('button[type=submit]');
+        \$this->actor->expectTo('see that user is logged');
+        \$this->actor->see('Logout (Frirst_user)', 'form button[type=submit]');
+    }
+}
 
 EOL;
 
@@ -80,5 +129,15 @@ EOL;
     public static function get()
     {
         return self::$template;
+    }
+
+    /**
+     * Return template for login file
+     *
+     * @return string
+     */
+    public static function getLogin()
+    {
+        return self::$loginTemplate;
     }
 }

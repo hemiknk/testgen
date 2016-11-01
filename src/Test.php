@@ -37,7 +37,7 @@ class Test
      * @param $name
      * @param $params
      */
-    public function __construct($path, $name, $params)
+    public function __construct($path = '', $name = '', $params = '')
     {
         $this->path = $path;
         $this->name = $name;
